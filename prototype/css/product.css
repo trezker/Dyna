@@ -1,0 +1,8 @@
+#backlog .item {
+	padding: .5em;
+	background-color: #ffffff;
+}
+
+#backlog .item:nth-of-type(2) {
+	background-color: #dddddd;
+}
