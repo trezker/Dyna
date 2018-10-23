@@ -3,6 +3,6 @@
 	background-color: #ffffff;
 }
 
-#backlog .item:nth-of-type(2) {
+#backlog .item:nth-of-type(even) {
 	background-color: #dddddd;
 }
