@@ -47,3 +47,26 @@ productViewmodel.backlog([
 	new BacklogItem("Item 3"),
 	new BacklogItem("Item 4")
 ]);
+
+function InsertOrderString(array, index) {
+	var midpoint = 19;
+	if(array.length == 0) {
+		return midpoint.toString(36);
+	}
+	if(index == 0) {
+		var orderAfter = array[0];
+		var high = parseInt(orderAfter.charAt(orderAfter.length-1), 36);
+		var middle = Math.floor(high / 2);
+		return middle.toString(36);
+	}
+}
+
+function assertEqual(a, b) {
+	console.assert(a == b, {a, b});
+}
+
+function TestInsertOrderString() {
+	assertEqual(InsertOrderString([], 0), "j");
+	assertEqual(InsertOrderString(["j"], 0), "9");
+}
+TestInsertOrderString();
