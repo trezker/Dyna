@@ -27,6 +27,15 @@ var ProductViewmodel = function() {
 		self.selectedBacklogItem = item;
 		ko.mapping.fromJS(item, self.backlogitem);
 	};
+
+	self.backlogMoved = function(arg) {
+		console.log(arg);
+		/*
+		parseInt("1J", 36)
+		55
+		x=55; x.toString(36)
+		*/
+	}
 }
 
 var productViewmodel = new ProductViewmodel();

@@ -6,7 +6,7 @@
 </head>
 <body>
 	<div id="productpage">
-		<div id="backlog" class="container" data-bind="sortable: backlog">
+		<div id="backlog" data-bind="sortable: { data: backlog, afterMove: backlogMoved }">
 			<div class="item" data-bind="text: title, click: $root.SelectBacklog"></div>
 		</div>
 		<div id="details">
