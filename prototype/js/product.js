@@ -48,17 +48,25 @@ productViewmodel.backlog([
 	new BacklogItem("Item 4")
 ]);
 
-function InsertOrderString(array, index) {
-	var midpoint = 19;
-	if(array.length == 0) {
-		return midpoint.toString(36);
+function StringBetweenStrings(before, after) {
+	var paddedBefore = before.padEnd(after.length|1, "0");
+	var paddedAfter = after.padEnd(before.length|1, "z");
+
+	var between = "";
+	for (var i = 0; i < paddedBefore.length; i++) {
+		var valueBefore = parseInt(paddedBefore.charAt(i), 36);
+		var valueAfter = parseInt(paddedAfter.charAt(i), 36);
+		var difference = valueAfter - valueBefore;
+		var valueBetween = valueBefore + Math.floor(difference / 2);
+		between += valueBetween.toString(36);
+		if(difference > 1) {
+			break;
+		}
+		if(difference == 1 && i == paddedBefore.length-1) {
+			between += "h";
+		}
 	}
-	if(index == 0) {
-		var orderAfter = array[0];
-		var high = parseInt(orderAfter.charAt(orderAfter.length-1), 36);
-		var middle = Math.floor(high / 2);
-		return middle.toString(36);
-	}
+	return between;
 }
 
 function assertEqual(a, b) {
@@ -66,7 +74,16 @@ function assertEqual(a, b) {
 }
 
 function TestInsertOrderString() {
-	assertEqual(InsertOrderString([], 0), "j");
-	assertEqual(InsertOrderString(["j"], 0), "9");
+	assertEqual(StringBetweenStrings("", ""), "h");
+	assertEqual(StringBetweenStrings("h", ""), "q");
+	assertEqual(StringBetweenStrings("", "h"), "8");
+	assertEqual(StringBetweenStrings("", "1"), "0h");
+	assertEqual(StringBetweenStrings("y", ""), "yh");
+	assertEqual(StringBetweenStrings("", "y"), "h");
+	assertEqual(StringBetweenStrings("3", "7"), "5");
+	assertEqual(StringBetweenStrings("6", "7"), "6h");
+	assertEqual(StringBetweenStrings("65", "76"), "65h");
+	assertEqual(StringBetweenStrings("65", "86"), "7");
 }
 TestInsertOrderString();
+
