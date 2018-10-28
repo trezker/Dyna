@@ -4,6 +4,7 @@ function BacklogItem(title) {
     var self = this;
 	self.id = backlogcount++;
     self.title = ko.observable(title);
+    self.order = ko.observable();
 }
 
 var ProductViewmodel = function() {
@@ -14,9 +15,17 @@ var ProductViewmodel = function() {
 	self.backlogitem = ko.mapping.fromJS(self.defaultbacklogitem);
 	self.selectedBacklogItem = null;
 
+	self.AddBacklog = function(item) {
+		var before = "0";
+		if(self.backlog().length > 0)
+			before = self.backlog()[self.backlog().length-1].order();
+		item.order(StringBetweenStrings(before, "z"));
+		self.backlog.push(item);
+	}
+
 	self.SaveBacklog = function() {
 		if(self.backlogitem.id() == "") {
-			self.backlog.push(new BacklogItem(self.backlogitem.title()));
+			self.AddBacklog(new BacklogItem(self.backlogitem.title()));
 		}
 		else {
 			self.backlog.replace(self.selectedBacklogItem, new BacklogItem(self.backlogitem.title()));
@@ -30,23 +39,23 @@ var ProductViewmodel = function() {
 
 	self.backlogMoved = function(arg) {
 		console.log(arg);
-		/*
-		parseInt("1J", 36)
-		55
-		x=55; x.toString(36)
-		*/
+		var before = "0";
+		var after = "z";
+		if(self.backlog().length > 0 && arg.targetIndex > 0)
+			before = self.backlog()[arg.targetIndex-1].order();
+		if(self.backlog().length > 0 && arg.targetIndex < self.backlog().length-1)
+			after = self.backlog()[arg.targetIndex].order();
+		arg.item.order(StringBetweenStrings(before, after));
 	}
 }
 
 var productViewmodel = new ProductViewmodel();
 ko.applyBindings(productViewmodel);
 
-productViewmodel.backlog([
-	new BacklogItem("Item 1"),
-	new BacklogItem("Item 2"),
-	new BacklogItem("Item 3"),
-	new BacklogItem("Item 4")
-]);
+productViewmodel.AddBacklog(new BacklogItem("Item 1"));
+productViewmodel.AddBacklog(new BacklogItem("Item 2"));
+productViewmodel.AddBacklog(new BacklogItem("Item 3"));
+productViewmodel.AddBacklog(new BacklogItem("Item 4"));
 
 function StringBetweenStrings(before, after) {
 	var paddedBefore = before.padEnd(after.length|1, "0");
