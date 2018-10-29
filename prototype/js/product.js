@@ -33,6 +33,7 @@ var ProductViewmodel = function() {
 	};
 
 	self.SelectBacklog = function(item) {
+		console.log("select");
 		self.selectedBacklogItem = item;
 		ko.mapping.fromJS(item, self.backlogitem);
 	};
@@ -44,7 +45,7 @@ var ProductViewmodel = function() {
 		if(self.backlog().length > 0 && arg.targetIndex > 0)
 			before = self.backlog()[arg.targetIndex-1].order();
 		if(self.backlog().length > 0 && arg.targetIndex < self.backlog().length-1)
-			after = self.backlog()[arg.targetIndex].order();
+			after = self.backlog()[arg.targetIndex+1].order();
 		arg.item.order(StringBetweenStrings(before, after));
 	}
 }
@@ -58,6 +59,7 @@ productViewmodel.AddBacklog(new BacklogItem("Item 3"));
 productViewmodel.AddBacklog(new BacklogItem("Item 4"));
 
 function StringBetweenStrings(before, after) {
+	console.log(before + "/" + after);
 	var paddedBefore = before.padEnd(after.length|1, "0");
 	var paddedAfter = after.padEnd(before.length|1, "z");
 
@@ -94,5 +96,5 @@ function TestInsertOrderString() {
 	assertEqual(StringBetweenStrings("65", "76"), "65h");
 	assertEqual(StringBetweenStrings("65", "86"), "7");
 }
-TestInsertOrderString();
+//TestInsertOrderString();
 
