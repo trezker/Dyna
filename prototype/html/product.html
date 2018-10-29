@@ -9,11 +9,11 @@
 		<div id="backlog" data-bind="sortable: { data: backlog, afterMove: backlogMoved }">
 			<div class="item">
 				<span data-bind="text: title, click: $root.SelectBacklog"></span>
-				<span data-bind="text: order"></span>
 			</div>
 		</div>
 		<div id="details">
 			<input type="text" data-bind="value: backlogitem.title" />
+			<textarea data-bind="value: backlogitem.description"></textarea>
 			<button data-bind="click: SaveBacklog">Save</button>
 		</div>
 	</div>

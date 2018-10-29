@@ -1,17 +1,18 @@
 var backlogcount = 0;
 
-function BacklogItem(title) {
+function BacklogItem(title, description) {
     var self = this;
 	self.id = backlogcount++;
-    self.title = ko.observable(title);
     self.order = ko.observable();
+    self.title = ko.observable(title);
+    self.description = ko.observable(description);
 }
 
 var ProductViewmodel = function() {
 	var self = this;
 
 	self.backlog = ko.observableArray();
-	self.defaultbacklogitem = new BacklogItem("");
+	self.defaultbacklogitem = new BacklogItem("", "");
 	self.backlogitem = ko.mapping.fromJS(self.defaultbacklogitem);
 	self.selectedBacklogItem = null;
 
@@ -24,11 +25,15 @@ var ProductViewmodel = function() {
 	}
 
 	self.SaveBacklog = function() {
+		var saveItem = new BacklogItem(
+			self.backlogitem.title(), 
+			self.backlogitem.description()
+		);
 		if(self.backlogitem.id() == "") {
-			self.AddBacklog(new BacklogItem(self.backlogitem.title()));
+			self.AddBacklog(saveItem);
 		}
 		else {
-			self.backlog.replace(self.selectedBacklogItem, new BacklogItem(self.backlogitem.title()));
+			self.backlog.replace(self.selectedBacklogItem, saveItem);
 		}
 	};
 
@@ -53,10 +58,10 @@ var ProductViewmodel = function() {
 var productViewmodel = new ProductViewmodel();
 ko.applyBindings(productViewmodel);
 
-productViewmodel.AddBacklog(new BacklogItem("Item 1"));
-productViewmodel.AddBacklog(new BacklogItem("Item 2"));
-productViewmodel.AddBacklog(new BacklogItem("Item 3"));
-productViewmodel.AddBacklog(new BacklogItem("Item 4"));
+productViewmodel.AddBacklog(new BacklogItem("Item 1", ""));
+productViewmodel.AddBacklog(new BacklogItem("Item 2", ""));
+productViewmodel.AddBacklog(new BacklogItem("Item 3", ""));
+productViewmodel.AddBacklog(new BacklogItem("Item 4", ""));
 
 function StringBetweenStrings(before, after) {
 	console.log(before + "/" + after);
