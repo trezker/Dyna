@@ -6,3 +6,12 @@
 #backlog .item:nth-of-type(even) {
 	background-color: #dddddd;
 }
+
+@media screen and (min-width: 640px) {
+
+#productpage {
+	display: grid;
+	grid-template-columns: 320px auto;
+}
+
+}
